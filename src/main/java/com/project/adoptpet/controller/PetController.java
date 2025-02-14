@@ -3,9 +3,7 @@ package com.project.adoptpet.controller;
 import com.project.adoptpet.model.Pets;
 import com.project.adoptpet.repository.PetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +18,28 @@ public class PetController {
         return petrepo.findAll();
     }
 
-    @GetMapping("pet/{id}")
-    public Pets getPetById(@PathVariable("id") int id) {
-        return petrepo.findById(id).orElse(null);
+    @GetMapping("petByName/{name}")
+    public List<Pets> getPetByName(@PathVariable("name") String name) {
+        return petrepo.findByName(name);
+    }
+
+    @GetMapping("petByBreed/{breed}")
+    public List<Pets> getPetByBreed(@PathVariable("breed") String breed) {
+        return petrepo.findByBreed(breed);
+    }
+
+    @GetMapping("petByType/{type}")
+    public List<Pets> getPetByType(@PathVariable("type") String type) {
+        return petrepo.findByType(type);
+    }
+
+    @PostMapping("/addPet")
+    public void addPet(@RequestBody Pets pet) {
+        petrepo.save(pet);
+    }
+
+    @DeleteMapping("pets/{id}")
+    public void deletePetById(@PathVariable("id") int id) {
+        petrepo.deleteById(id);
     }
 }
