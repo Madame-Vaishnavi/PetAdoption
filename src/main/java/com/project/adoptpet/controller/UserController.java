@@ -15,13 +15,22 @@ public class UserController {
     UserRepo repo;
 
     @GetMapping("/users")
-    public List<Users> getAllUsers() {
+    public List<Users> getAllUsers(@RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String role,
+                                   @RequestParam(required = false) Integer id) {
+        if (name != null)
+        {
+            return repo.findByName(name);
+        }
+        else if (role != null)
+        {
+            return repo.findByRole(role);
+        }
+        else if (id != null)
+        {
+            return repo.findById(id).map(List::of).orElse(null);
+        }
         return repo.findAll();
-    }
-
-    @GetMapping("/users/{name}")
-    public List<Users> getUserByName(@PathVariable("name") String name) {
-        return repo.findByName(name);
     }
 
     @PostMapping("/addUser")

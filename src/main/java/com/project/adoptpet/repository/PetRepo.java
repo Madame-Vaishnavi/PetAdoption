@@ -11,4 +11,5 @@ public interface PetRepo extends JpaRepository<Pets, Integer> {
     public List<Pets> findByName(String name);
     public List<Pets> findByBreed(String breed);
     public List<Pets> findByType(String type);
+    public List<Pets> findByStatus(String status);
 }

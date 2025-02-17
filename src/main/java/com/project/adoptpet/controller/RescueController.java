@@ -14,23 +14,25 @@ public class RescueController {
     @Autowired
     RescueRepo repo;
 
-    @GetMapping("/requests")
-    public List<Rescue_reports> getAllRequests() {
+    @GetMapping("/reports")
+    public List<Rescue_reports> getAllReports(@RequestParam(required = false) Integer id,
+                                              @RequestParam(required = false) String status) {
+        if(id != null) {
+            return repo.findById(id).map(List::of).orElse(null);
+        }
+        else if(status != null) {
+            return repo.findByStatus(status);
+        }
         return repo.findAll();
     }
 
-    @PostMapping("/addRequest")
-    public void addRequest(@RequestBody Rescue_reports req) {
+    @PostMapping("/addReport")
+    public void addReport(@RequestBody Rescue_reports req) {
         repo.save(req);
     }
 
-    @GetMapping("/requests/{id}")
-    public Rescue_reports getRequest(@PathVariable int id) {
-        return repo.findById(id).orElse(null);
-    }
-
-    @DeleteMapping("/requests/del/{id}")
-    public void deleteRequest(@PathVariable int id) {
+   @DeleteMapping("/delReports/{id}")
+    public void deleteReport(@PathVariable int id) {
         repo.deleteById(id);
     }
 }

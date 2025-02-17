@@ -14,25 +14,28 @@ public class PetController {
     PetRepo petrepo;
 
     @GetMapping("/pets")
-    public List<Pets> getAllPets() {
+    public List<Pets> getAllPets(@RequestParam(required = false) String name,
+                                 @RequestParam(required = false) String type,
+                                 @RequestParam(required = false) String breed,
+                                 @RequestParam(required = false) String status) {
+        if(name != null)
+        {
+            return petrepo.findByName(name);
+        }
+        else if(type != null)
+        {
+            return petrepo.findByType(type);
+        }
+        else if(breed != null)
+        {
+            return petrepo.findByBreed(breed);
+        }
+        else if(status != null)
+        {
+            return petrepo.findByStatus(status);
+        }
         return petrepo.findAll();
     }
-
-    @GetMapping("petByName/{name}")
-    public List<Pets> getPetByName(@PathVariable("name") String name) {
-        return petrepo.findByName(name);
-    }
-
-    @GetMapping("petByBreed/{breed}")
-    public List<Pets> getPetByBreed(@PathVariable("breed") String breed) {
-        return petrepo.findByBreed(breed);
-    }
-
-    @GetMapping("petByType/{type}")
-    public List<Pets> getPetByType(@PathVariable("type") String type) {
-        return petrepo.findByType(type);
-    }
-
     @PostMapping("/addPet")
     public void addPet(@RequestBody Pets pet) {
         petrepo.save(pet);
