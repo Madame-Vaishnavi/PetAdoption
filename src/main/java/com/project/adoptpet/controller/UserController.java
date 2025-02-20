@@ -4,11 +4,12 @@ import com.project.adoptpet.model.Users;
 import com.project.adoptpet.repository.UserRepo;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
@@ -33,14 +34,20 @@ public class UserController {
         return repo.findAll();
     }
 
-    @PostMapping("/addUser")
-    public void addUser(Users user) {
-        repo.save(user);
-    }
+//    @PostMapping("/addUser")
+//    public void addUser(Users user) {
+//        repo.save(user);
+//    }
 
     @DeleteMapping("users/{id}")
     public void deletePetById(@PathVariable("id") int id) {
         repo.deleteById(id);
+    }
+
+    @PostMapping("/register")  // Ensure this matches the form's action
+    public String registerUser(@ModelAttribute Users user) {
+        repo.save(user);
+        return "redirect:/login";  // Redirect to login page after registration
     }
 
 }

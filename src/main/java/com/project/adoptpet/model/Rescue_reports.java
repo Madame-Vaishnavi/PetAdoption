@@ -1,13 +1,11 @@
 package com.project.adoptpet.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -22,6 +20,11 @@ public class Rescue_reports {
     private String description;
     private String image_url;
     private String status;
-    private Timestamp report_date;
+    @Column(nullable = false, updatable = false)
+    private Timestamp report_at;
 
+    @PrePersist
+    protected void onCreate() {
+        report_at = Timestamp.from(Instant.now());
+    }
 }

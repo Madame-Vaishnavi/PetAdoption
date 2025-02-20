@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -19,5 +20,11 @@ public class Adoption_requests {
     @Column(name="user_id")
     private int userId;
     private String status;
-    private Timestamp request_date;
+    @Column(nullable = false, updatable = false)
+    private Timestamp requested_at;
+
+    @PrePersist
+    protected void onCreate() {
+        requested_at = Timestamp.from(Instant.now());
+    }
 }

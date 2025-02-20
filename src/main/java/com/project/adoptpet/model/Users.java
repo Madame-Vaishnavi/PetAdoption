@@ -1,15 +1,13 @@
 package com.project.adoptpet.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Setter
@@ -25,5 +23,11 @@ public class Users {
     private String phone;
     private String role;
     private String location;
+    @Column(nullable = false, updatable = false)
     private Timestamp created_at;
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = Timestamp.from(Instant.now());
+    }
 }

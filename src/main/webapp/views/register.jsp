@@ -74,6 +74,7 @@
         <input type="text" name="location" placeholder="Enter your location" required>
         <button type="submit" class="btn">Register</button>
     </form>
+
     <a href="login" class="login-link">Already have an account? Login here</a>
 </div>
 
